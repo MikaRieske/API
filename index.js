@@ -6,6 +6,11 @@ app.use(express.json()); // Voor het verwerken van JSON in requests
 
 let tasks = [];
 
+// Welkomstbericht voor het rootpad
+app.get('/', (req, res) => {
+    res.send('Welkom bij de Simple CRUD API');
+});
+
 // Create - Voeg een nieuwe taak toe
 app.post('/tasks', (req, res) => {
     const task = req.body;
@@ -37,6 +42,11 @@ app.delete('/tasks/:id', (req, res) => {
     const id = parseInt(req.params.id);
     tasks = tasks.filter(task => task.id !== id);
     res.status(204).end();
+});
+
+// 404 - Route not found
+app.use((req, res, next) => {
+    res.status(404).send("Sorry, deze pagina bestaat niet!");
 });
 
 app.listen(PORT, () => {
